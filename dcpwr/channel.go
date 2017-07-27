@@ -24,6 +24,7 @@ func NewChannel(id int, name string, inst ivi.Instrument) Channel {
 // read-only IviDCPwrBase Attribute Output Channel Name described in Section
 // 4.2.9 of IVI-4.4: IviDCPwr Class Specification.
 func (ch *Channel) Name() string {
+	
 	// TODO(mdr): Should I get rid of the Name getter and instead use the more Go
 	// idiomatic Stringer interface?
 	return ch.name
