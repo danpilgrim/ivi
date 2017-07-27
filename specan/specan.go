@@ -3,7 +3,9 @@ package specan
 
 // The MeasurementFunction defined values are the available measurement functions.
 const (
-	DCVolts MeasurementFunction = iota
+	Function AmplitudeUnits = iota
+
+
 	ACVolts
 	DCCurrent
 	ACCurrent

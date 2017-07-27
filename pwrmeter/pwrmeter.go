@@ -1,10 +1,10 @@
 
 package pwrmeter
 
-type OperationState int
+type AmplitudeUnits int
 
 const (
-	Function OperationState = iota
+	Function AmplitudeUnits = iota
 	Arbitrary
 	Sequence
 )
