@@ -1,10 +1,10 @@
-
 package pwrmeter
 
-type AmplitudeUnits int
+type UnitsEnum int
 
 const (
-	Function AmplitudeUnits = iota
-	Arbitrary
-	Sequence
+	dBm UnitsEnum = iota
+	dBmV
+	dBuV
+	Watts
 )

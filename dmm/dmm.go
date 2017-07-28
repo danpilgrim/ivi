@@ -1,3 +1,4 @@
+
 package dmm
 
 // MeasurementFunction provides the defined values for the Measurement Function defined in
