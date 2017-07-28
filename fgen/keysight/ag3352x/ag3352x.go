@@ -4,12 +4,13 @@
 // can be found in the LICENSE.txt file for the project.
 
 /*
-Package ag33220 implements the IVI driver for the Agilent 33220A function
+Package Ag3352x implements the IVI driver for the Agilent Ag3352x? function
 generator.
 
 State Caching: Not implemented
 */
-package ag33220
+
+package ag3352x
 
 import (
 	"github.com/gotmc/ivi"
@@ -27,30 +28,33 @@ const (
 // TODO(mdr): Seems like groupCapabilities should be a []string instead of
 // string
 
+// 33512B model number
 var supportedInstrumentModels = []string{
-	"33220A",
-	"33210A",
+	"33512B",
 }
 
 var channelNames = []string{
 	"Output",
 }
 
-// Ag33220 provides the IVI driver for an Agilent 33220A or 33210A
+// Ag3352x provides the IVI driver for an Agilent 33220A or 33210A
 // function generator.
-type Ag33220 struct {
+type Ag3352x struct {
 	inst     ivi.Instrument
 	Channels []Channel
 	ivi.Inherent
 }
 
-// New creates a new Ag33220 IVI Instrument.
-func New(inst ivi.Instrument, reset bool) (*Ag33220, error) {
+// New creates a new Ag3352x IVI Instrument.
+func New(inst ivi.Instrument, reset bool) (*Ag3352x, error) {
+
 	outputCount := len(channelNames)
 	channels := make([]Channel, outputCount)
+
 	for i, ch := range channelNames {
 		baseChannel := fgen.NewChannel(i, ch, inst)
 		channels[i] = Channel{baseChannel}
+
 	}
 	inherentBase := ivi.InherentBase{
 		ClassSpecMajorVersion:     classSpecMajorVersion,
@@ -59,12 +63,15 @@ func New(inst ivi.Instrument, reset bool) (*Ag33220, error) {
 		GroupCapabilities:         groupCapabilities,
 		SupportedInstrumentModels: supportedInstrumentModels,
 	}
+
 	inherent := ivi.NewInherent(inst, inherentBase)
-	fgen := Ag33220{
+
+	fgen := Ag3352x{
 		inst:     inst,
 		Channels: channels,
 		Inherent: inherent,
 	}
+
 	if reset {
 		err := fgen.Reset()
 		return &fgen, err

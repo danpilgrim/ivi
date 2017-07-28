@@ -3,6 +3,8 @@
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project.
 
+// Changes for Ag3352x reference Keysite's 33500-90901 Manual
+
 package ag33220
 
 import (
@@ -23,12 +25,16 @@ func (a *Ag33220) OutputCount() int {
 // continuous or burst output on the channel. OperationMode implements the
 // getter for the read-write IviFgenBase Attribute Operation Mode described in
 // Section 4.2.2 of IVI-4.3: IviFgen Class Specification.
+// AG3352x - no change (Ref: pg.193 & 226 & 306)
 func (ch *Channel) OperationMode() (fgen.OperationMode, error) {
 	var mode fgen.OperationMode
+
 	s, err := ch.QueryString("BURS:STAT?\n")
+
 	if err != nil {
 		return mode, fmt.Errorf("error getting operation mode: %s", err)
 	}
+
 	switch s {
 	case "OFF":
 		return fgen.Continuous, nil
@@ -43,6 +49,7 @@ func (ch *Channel) OperationMode() (fgen.OperationMode, error) {
 // continuous or burst output on the channel. SetOperationMode implements the
 // setter for the read-write IviFgenBase Attribute Operation Mode described in
 // Section 4.2.2 of IVI-4.3: IviFgen Class Specification.
+// AG3352x - no change (Ref: pg.193 & 226 & 306)
 func (ch *Channel) SetOperationMode(mode fgen.OperationMode) error {
 	switch mode {
 	case fgen.Burst:
@@ -50,13 +57,14 @@ func (ch *Channel) SetOperationMode(mode fgen.OperationMode) error {
 	case fgen.Continuous:
 		return ch.Set("BURS:STAT OFF\n")
 	}
-	return errors.New("bad fgen operatino mode")
+	return errors.New("bad fgen operation mode")
 }
 
 // OutputEnabled determines if the output channel is enabled or disabled.
 // OutputEnabled is the getter for the read-write IviFgenBase Attribute
 // Output Enabled described in Section 4.2.3 of IVI-4.3: IviFgen Class
 // Specification.
+// No hanges for AG3352x (Ref: pg.193 & 226 & 306)
 func (ch *Channel) OutputEnabled() (bool, error) {
 	return ch.QueryBool("OUTP?\n")
 }
@@ -65,6 +73,7 @@ func (ch *Channel) OutputEnabled() (bool, error) {
 // SetOutputEnabled is the setter for the read-write IviFgenBase Attribute
 // Output Enabled described in Section 4.2.3 of IVI-4.3: IviFgen Class
 // Specification.
+// No changes for AG3352x (Ref: pg.193 & 226 & 306)
 func (ch *Channel) SetOutputEnabled(v bool) error {
 	if v {
 		return ch.Set("OUPT ON\n")
@@ -88,6 +97,7 @@ func (ch *Channel) EnableOutput() error {
 // OutputImpedance is the getter for the read-write IviFgenBase Attribute
 // Output Impedance described in Section 4.2.4 of IVI-4.3: IviFgen Class
 // Specification.
+// No changes for AG3352x (Ref: pg.331)
 func (ch *Channel) OutputImpedance() (float64, error) {
 	return ch.QueryFloat64("OUTP:LOAD?\n")
 }
@@ -96,6 +106,7 @@ func (ch *Channel) OutputImpedance() (float64, error) {
 // SetOutputImpedance is the setter for the read-write IviFgenBase Attribute
 // Output Impedance described in Section 4.2.3 of IVI-4.3: IviFgen Class
 // Specification.
+// No changes for AG3352x (Ref: pg.331)
 func (ch *Channel) SetOutputImpedance(impedance float64) error {
 	return ch.Set("OUTP:LOAD %f\n", impedance)
 }
