@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project.
 
-package ag33220
+package ag3352x
 
 import (
 	"errors"
@@ -15,6 +15,7 @@ import (
 // TriggerSource determines the trigger srouce. TriggerSource is the getter for
 // the read-write IviFgenTrigger Attribute Trigger Source described in Section
 // 9.2.1 of IVI-4.3: IviFgen Class Specification.
+// AG3352x - no change (Ref: pg. 432)
 func (ch *Channel) TriggerSource() (fgen.TriggerSource, error) {
 	var src fgen.TriggerSource
 	s, err := ch.QueryString("TRIG:SOUR?\n")
@@ -38,6 +39,7 @@ func (ch *Channel) TriggerSource() (fgen.TriggerSource, error) {
 // SetTriggerSource specifies the trigger srouce. SetTriggerSource is the
 // setter for the read-write IviFgenTrigger Attribute Trigger Source described
 // in Section 9.2.1 of IVI-4.3: IviFgen Class Specification.
+// AG3352x - no change (Ref: pg. 432)
 func (ch *Channel) SetTriggerSource(src fgen.TriggerSource) error {
 	triggers := map[fgen.TriggerSource]string{
 		fgen.InternalTrigger: "IMM",

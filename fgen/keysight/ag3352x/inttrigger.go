@@ -3,13 +3,14 @@
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project.
 
-package ag33220
+package ag3352x
 
 // InternalTriggerRate determines the rate at which the function generator's
 // internal trigger source produces a trigger in triggers per second.
 // InternalTriggerRate is the getter for the read-write IviFgenInternalTrigger
 // Attribute Internal Trigger Rate described in Section 15.2.1 of IVI-4.3:
 // IviFgen Class Specification.
+// AG3352x - no change (Ref: pg. 434)
 func (ch *Channel) InternalTriggerRate() (float64, error) {
 	// The Agilent 33220A needs to know the burst period in seconds; however, the
 	// IVI API expects the number of triggers per second. Therefore, we need the
@@ -26,6 +27,7 @@ func (ch *Channel) InternalTriggerRate() (float64, error) {
 // SetInternalTriggerRate is the setter for the read-write
 // IviFgenInternalTrigger Attribute Internal Trigger Rate described in Section
 // 15.2.1 of IVI-4.3: IviFgen Class Specification.
+// AG3352x - no change (Ref: pg. 434)
 func (ch *Channel) SetInternalTriggerRate(rate float64) error {
 	// The Agilent 33220A needs to know the burst period in seconds; however, the
 	// IVI API expects the number of triggers per second. Therefore, we need the
@@ -36,6 +38,7 @@ func (ch *Channel) SetInternalTriggerRate(rate float64) error {
 // InternalTriggerPeriod determines the internal trigger period in seconds.
 // InternalTriggerPeriod is not part of the IVI API, which only provides
 // InternalTriggerRate, but this is a convenience function.
+// AG3352x - no change (Ref: pg. 434)
 func (ch *Channel) InternalTriggerPeriod() (float64, error) {
 	return ch.QueryFloat64("BURS:INT:PER?\n")
 }
@@ -43,6 +46,7 @@ func (ch *Channel) InternalTriggerPeriod() (float64, error) {
 // SetInternalTriggerPeriod specifies the internal trigger period in seconds.
 // SetInternalTriggerPeriod is not part of the IVI API, which only provides
 // SetInternalTriggerRate, but this is a convenience function.
+// AG3352x - no change (Ref: pg. 434)
 func (ch *Channel) SetInternalTriggerPeriod(period float64) error {
 	return ch.Set("BURS:INT:PER %v\n", period)
 }

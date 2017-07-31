@@ -1,7 +1,7 @@
 // Copyright (c) 2017 The ivi developers. All rights reserved.
 // Project site: https://github.com/gotmc/ivi
 // Use of this source code is governed by a MIT-style license that
-// can be found in the LICENSE.txt file for the project.
+// can be found in the LICENSE.txt file for the project. //
 
 /*
 Package Ag3352x implements the IVI driver for the Agilent Ag3352x? function
@@ -9,7 +9,6 @@ generator.
 
 State Caching: Not implemented
 */
-
 package ag3352x
 
 import (

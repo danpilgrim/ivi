@@ -3,9 +3,9 @@
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project.
 
-// Changes for Ag3352x reference Keysite's 33500-90901 Manual
+// Changes for Ag3352x reference Keysite's 33500-90901 Manual //
 
-package ag33220
+package ag3352x
 
 import (
 	"errors"
@@ -25,7 +25,7 @@ func (a *Ag33220) OutputCount() int {
 // continuous or burst output on the channel. OperationMode implements the
 // getter for the read-write IviFgenBase Attribute Operation Mode described in
 // Section 4.2.2 of IVI-4.3: IviFgen Class Specification.
-// AG3352x - no change (Ref: pg.193 & 226 & 306)
+// AG3352x - no change (Ref: pg. 434)
 func (ch *Channel) OperationMode() (fgen.OperationMode, error) {
 	var mode fgen.OperationMode
 
