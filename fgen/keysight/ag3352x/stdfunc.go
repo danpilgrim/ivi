@@ -25,10 +25,9 @@ func (ch *Channel) Amplitude() (float64, error) {
 // waveform values, i.e., the peak-to-peak voltage value. Amplitude is the
 // setter for the read-write IviFgenStdFunc Attribute Amplitude described in
 // Section 5.2.1 of IVI-4.3: IviFgen Class Specification.
-// AG3352x - changed VOLT %F VPP to APPly function (Ref: pg.208 or 428)
+// AG3352x - no change (Ref: pg.208 or 428)
 func (ch *Channel) SetAmplitude(amp float64) error {
-	return ch.Set("VOLT %f VPP\n", amp) //??sets amplitude# or sets unit to amplitude
-	//return APPLy:ARBi [{<sample_rate>|MIN|MAX|DEF} [,{<amplitude>|MIN|MAX|DEF}]]
+	return ch.Set("VOLT %f VPP\n", amp)
 }
 
 // DCOffset reads the difference between the average of the maximum and minimum
@@ -127,7 +126,7 @@ func (ch *Channel) StandardWaveform() (fgen.StandardWaveform, error) {
 // generator produces.  SetStandwardWaveform is the setter for the read-write
 // IviFgenStdFunc Attribute Waveform described in Section 5.2.6 of IVI-4.3:
 // IviFgen Class Specification.
-// AG3352x - changed (Ref: pg. 421,428)
+// AG3352x - no change (Ref: pg. 421,428)
 func (ch *Channel) SetStandardWaveform(wave fgen.StandardWaveform) error {
 	// FIXME(mdr): May need to change the phase offset in order to match the
 	// waveforms shown in Figure 5-1 of IVI-4.3: IviFgen Class Specification.
@@ -138,10 +137,9 @@ var waveformCommand = map[fgen.StandardWaveform]string{
 	fgen.Sine:   "FUNC SIN\n",
 	fgen.Square: "FUNC SQU\n",
 
-	//for AG3352x, added an additional "FUNC:" before RAMP (x3)
-	fgen.Triangle: "FUNC RAMP; FUNC:RAMP:SYMM 50\n",
-	fgen.RampUp:   "FUNC RAMP; FUNC:RAMP:SYMM 100\n",
-	fgen.RampDown: "FUNC RAMP; FUNC:RAMP:SYMM 0\n",
+	fgen.Triangle: "FUNC RAMP; RAMP:SYMM 50\n",
+	fgen.RampUp:   "FUNC RAMP; RAMP:SYMM 100\n",
+	fgen.RampDown: "FUNC RAMP; RAMP:SYMM 0\n",
 
 	fgen.DC: "FUNC DC\n",
 }
@@ -149,7 +147,7 @@ var waveformCommand = map[fgen.StandardWaveform]string{
 var waveformApplyCommand = map[fgen.StandardWaveform]string{
 	fgen.Sine:     "APPL:SIN %.4f, %.4f, %.4f\n",
 	fgen.Square:   "APPL:SQU %.4f, %.4f, %.4f\n",
-	fgen.Triangle: "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n", //works??
+	fgen.Triangle: "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n",
 	fgen.RampUp:   "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 100\n",
 	fgen.RampDown: "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 0\n",
 	fgen.DC:       "APPL:DC %.4f, %.4f, %.4f\n",

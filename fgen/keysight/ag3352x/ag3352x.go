@@ -2,9 +2,9 @@
 // Project site: https://github.com/gotmc/ivi
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project. //
-
+// Changes for Ag3352x reference Keysite's 33500-90901 Manual //
 /*
-Package Ag3352x implements the IVI driver for the Agilent Ag3352x? function
+Package Ag3352x implements the IVI driver for the Agilent Ag3352x function
 generator.
 
 State Caching: Not implemented

@@ -3,8 +3,6 @@
 // Use of this source code is governed by a MIT-style license that
 // can be found in the LICENSE.txt file for the project.
 
-// Changes for Ag3352x reference Keysite's 33500-90901 Manual //
-
 package ag3352x
 
 import (
