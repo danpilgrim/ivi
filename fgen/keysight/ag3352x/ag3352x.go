@@ -6,9 +6,9 @@
 /*
 Package Ag3352x implements the IVI driver for the Agilent Ag3352x function
 generator.
-
 State Caching: Not implemented
 */
+
 package ag3352x
 
 import (

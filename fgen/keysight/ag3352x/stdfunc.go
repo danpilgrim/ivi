@@ -36,7 +36,7 @@ func (ch *Channel) SetAmplitude(amp float64) error {
 // of IVI-4.3: IviFgen Class Specification.
 // AG3352x - no change (Ref: pg.208 + 482)
 func (ch *Channel) DCOffset() (float64, error) {
-	return ch.QueryFloat64("APPLy:OFFS?\n")
+	return ch.QueryFloat64("APPL:OFFS?\n")
 }
 
 // SetDCOffset sets the difference between the average of the maximum and
