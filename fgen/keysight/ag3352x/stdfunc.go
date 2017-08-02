@@ -115,6 +115,7 @@ func (ch *Channel) StandardWaveform() (fgen.StandardWaveform, error) {
 			return fgen.RampUp, nil
 		case 50.0:
 			return fgen.Triangle, nil
+
 		default:
 			return wave, fmt.Errorf("unable to determine waveform type RAMP with SYMM %f", symm)
 		}
