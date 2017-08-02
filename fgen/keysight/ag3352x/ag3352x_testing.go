@@ -5,7 +5,7 @@ import (
   //
   "testing"
   "bites"
-
+  "strings"
   //subsitute with updated git
   "github.com/danpilgrim/ivi.git"
   )
@@ -14,6 +14,7 @@ import (
 type FakeInstrument struct {
   BurstState string
   OutputChannel string
+  Amplitude float64
   Impedance float64
   BurstCount float64
   DCOffset float64
@@ -38,6 +39,13 @@ func (inst *FakeInstrument) Read(p []byte) (int, error) {
     )
 
 }
+func extractLastNumber(s string, int n) (float64, error) {
+  while
+  str1, err := string[0:n]
+  strFloat, err := string[n+1:len(string)-1]
+  str2, err := strings.parseFloat(strFloat)
+
+}
 
 func (inst *FakeInstrument) Write(p []byte) (int, error) {
 
@@ -50,16 +58,34 @@ func (inst *FakeInstrument) Write(p []byte) (int, error) {
 
 func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
+string msg = "COMMAND SUCCESS"
+string badmsg = "command not recognized"
   switch s {
-  case "":
-    return
+  case "BURS:MODE TRIG;STAT ON\n":
+    return msg //"Burst mode on, stat one"
+  case "BURS:STAT OFF\n":
+    return msg //"Burst Mode Off"
+  case "OUPT ON\n":
+    return msg //Output Channel enabled
+  case "OUTP OFF\n":
+    return msg //Output Channel disabled
+  case "BURS:MODE TRIG;STAT ON\n":
+    return msg //
+  case "BURS:MODE TRIG;STAT ON\n":
+    return msg
+  case "BURS:MODE TRIG;STAT ON\n":
+    return msg
+  case "BURS:MODE TRIG;STAT ON\n":
+    return msg
+
+
   }
 }
 
 func (inst *FakeInstrument) Query(s string) (string, error) {
   switch s {
   case "VOLT?\n":
-    return ("2.5000", nil)
+    return (inst.Amplitude, nil)
   case "BURS:STAT?\n":
     return (inst.BurstState, nil)
   case "OUTP?\n":
