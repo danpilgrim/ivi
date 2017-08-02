@@ -14,18 +14,19 @@ import (
 type FakeInstrument struct {
   BurstState string
   OutputChannel string
-  Amplitude float64
-  Impedance float64
-  BurstCount float64
-  DCOffset float64
-  DutyCycle float64
-  Frequency float64
+  Amplitude float64 //
+  Impedance float64 //
+  BurstCount float64 //
+  DCOffset float64 //
+  DutyCycle float64 //
+  Frequency float64 //
   Function string
-  Symmetry float64
-  InternalTriggerPeriod float64
+  Symmetry float64 //
+  InternalTriggerPeriod float64 //
   TriggerSource string
 }
- extractLastNumber(s string) (float64, error) {
+
+ extractNumber(s string) (float64, error) {
 
   n = 1
   while (err != nil || n < len(string)){
@@ -66,6 +67,8 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
 string msg = "COMMAND SUCCESS"
 string badmsg = "command not recognized"
+
+  //wordArray := strings.Split(s, " ")
 
   switch s {
   case "BURS:MODE TRIG;STAT ON\n":
