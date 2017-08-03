@@ -36,7 +36,7 @@ var channelNames = []string{
 	"Output",
 }
 
-// Ag3352x provides the IVI driver for an Agilent 33220A or 33210A
+// Ag3352x provides the IVI driver for an Agilent Ag3352x
 // function generator.
 type Ag3352x struct {
 	inst     ivi.Instrument

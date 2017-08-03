@@ -160,12 +160,14 @@ func (inst *FakeInstrument) Query(s string) (string, error) {
 
 }
 
-/*
+
 func TestBurstStateOn() {
   fg := FakeInstrument{
     BurstState: "ON",
   }
-  // FIXME: Write code to test querying the burst state.
+
+
+    // FIXME: Write code to test querying the burst state.
 
 }
 
@@ -173,10 +175,11 @@ func TestBurstStateOff() {
   fg := FakeInstrument{
     BurstState: "OFF",
   }
+  Ag3352x.Channels[0].BurstCount()
+
   // FIXME: Write code to test querying the burst state when it's off.
 
 }
-*/
 
   func TestFunction(t *testing.T) {
     expected:="expected answer"
