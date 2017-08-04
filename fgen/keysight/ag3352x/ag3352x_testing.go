@@ -14,7 +14,7 @@ import (
 type FakeInstrument struct {
   BurstState string
   OutputChannel string
-  Amplitude float64 //
+  Amplitude float64 // or string
   Impedance float64 //
   BurstCount float64 //
   DCOffset float64 //
@@ -176,8 +176,63 @@ func TestBurstStateOff() {
     BurstState: "OFF",
   }
   Ag3352x.Channels[0].BurstCount()
-
   // FIXME: Write code to test querying the burst state when it's off.
+}
+
+func TestBurstStateOn() {
+  fg := FakeInstrument{
+    BurstState: "ON",
+  }
+    // FIXME: Write code to test querying the burst state.
+}
+
+// Tests OperationMode() from Continuous mode to Burst mode
+func TestOperationMode1(){
+
+}
+
+// Tests OperationMode() from Burst mode To Coninuous mode
+func TestOperationMode2(){
+
+}
+
+// Tests OperationMode() Error #1 getting operation mode
+func TestOperationMode3(){
+
+}
+
+// Tests OperationMode() Error #2 determining operation mode from fgen
+func TestOperationMode4(){
+
+}
+
+// Tests SetOperationMode() from Burst mode to Continuous mode
+func TestSetOperationMode1(){
+
+}
+
+// Tests SetOperationMode() from Continuous mode to Burst mode
+func TestSetOperationMode2(){
+
+}
+
+// Tests OutputEnabled() sets output to on
+func TestOutputEnabled1(){
+
+}
+
+// Tests OutputEnabled() sets output to off
+func TestOutputEnabled2(){
+
+}
+
+// Tests SetOperationMode()
+func TestSetOperationMode(){
+
+}
+
+// Tests SetOperationMode()
+func SetTestOperationMode(){
 
 }
 
