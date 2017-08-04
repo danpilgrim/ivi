@@ -226,15 +226,255 @@ func TestOutputEnabled2(){
 
 }
 
-// Tests SetOperationMode()
-func TestSetOperationMode(){
+// Tests DisableOutput() disables output
+func TestDisableOutput(){
 
 }
 
-// Tests SetOperationMode()
-func SetTestOperationMode(){
+// Tests EnableOutput() enables output
+func TestEnableOutput(){
 
 }
+
+// Tests OutputImpedance() returns output channel's impedance in ohms.
+func TestOutputImpedance(){
+
+}
+
+// Tests SetOperationMode() sets output channel's impedance in ohms
+func TestSetOutputImpedance(){
+
+}
+
+// Tests BurstCount() returns the number of waveform cycles that the function generator produces after it receives a trigger
+func TestBurstCount(){
+
+}
+
+// Tests SetBurstCount() sets the number of waveform cycles that the function generator produces after it receives a trigger
+func TestSetBurstCount(){
+
+}
+
+// Tests Amplitude() read difference between maximum and minimum waveform values
+func TestAmplitude(){
+
+}
+
+// Tests SetAmplitude() specifies the difference between the maximum and minimum waveform values
+func TestSetAmplitude(){
+
+}
+
+// Tests DCOffset() reads the difference between the average of the maximum and minimum
+// waveform values and the x-axis
+func TestDCOffset(){
+
+}
+
+// Tests SetDCOffset() sets the difference between the average of the maximum and
+// minimum waveform values and the x-axis (0 volts)
+func TestSetDCOffset(){
+
+}
+
+// Tests DutyCycle() reads percentage of time (0-100) during one cycle for which the square wave is at its high value
+func TestDutyCycle(){
+
+}
+
+// Tests SetDutyCycle() sets the percentage of time, specified as 0-100, during one
+// cycle for which the square wave is at its high value
+func TesSetDutyCyclet(){
+
+}
+
+// Tests Frequency() reads the number of waveform cycles generated in one second
+func TestFrequency(){
+
+}
+
+// Tests SetFrequency()
+func TestSetFrequency(){
+
+}
+
+// Tests StandardWaveform() determines if one of the IVI Standard Waveforms is being output by the function generator
+func TestStandardWaveform1(){
+
+}
+
+// Tests StandardWaveform() for fgen.Sine
+func TestStandardWaveform2(){
+
+}
+
+// Tests StandardWaveform() for fgen.Square
+func TestStandardWaveform3(){
+
+}
+
+// Tests StandardWaveform() for fgen.DC
+func TestStandardWaveform4(){
+
+}
+
+//Tests StandardWaveform() for error when unable to get symmetry to determine standard waveform: %s
+func TestStandardWaveform5(){
+
+}
+
+//Tests StandardWaveform() for fgen.RampDown
+func TestStandardWaveform6(){
+
+}
+
+//Tests StandardWaveform() for fgen.RampUp
+func TestStandardWaveform7(){
+
+}
+
+//Tests StandardWaveform() for fgen.Triangle
+func TestStandardWaveform8(){
+
+}
+
+// Tests StandardWaveform() for error when unable to determine waveform type RAMP with SYMM %f
+func TestStandardWaveform9(){
+
+}
+
+// Tests StandardWaveform() for error when unable to determine standard waveform type: %s
+func TestStandardWaveform10(){
+
+}
+
+// Tests SetStandardWaveform() to specify which standard waveform the function generator produces
+func TestSetStandardWaveform(){
+
+}
+
+// Tests SetStandardWaveform() fgen.Sine test
+func TestSetStandardWaveform1(){
+
+}
+
+
+// Tests SetStandardWaveform() fgen.Square test
+func TestSetStandardWaveform2(){
+
+}
+
+// Tests SetStandardWaveform() fgen.Triangle test
+func TestSetStandardWaveform3(){
+
+}
+// Tests SetStandardWaveform() fgen.RampUp test
+func TestSetStandardWaveform4(){
+
+}
+
+// Tests SetStandardWaveform() fgen.Rampdown test
+func TestSetStandardWaveform5(){
+
+}
+
+// Tests SetStandardWaveform() fgen.DC test
+func TestSetStandardWaveform6(){
+
+}
+
+// Tests ConfigureStandardWaveform() fgen.Sine test
+func TestConfigureStandardWaveform1(){
+
+}
+// Tests ConfigureStandardWaveform() fgen.Square test
+func TestConfigureStandardWaveform2(){
+
+}
+// Tests ConfigureStandardWaveform() fgen.Triangle test
+func TestConfigureStandardWaveform3(){
+
+}
+// Tests ConfigureStandardWaveform() fgen.RampUp test
+func TestConfigureStandardWaveform4(){
+
+}
+// Tests ConfigureStandardWaveform() fgen.RampDown test
+func TestConfigureStandardWaveform5(){
+
+}
+// Tests ConfigureStandardWaveform() fgen.DC test
+func TestConfigureStandardWaveform6(){
+
+}
+
+// Tests InternalTriggerRate() for successful triggers per second intput
+func TestInternalTriggerRate1(){
+
+}
+// Tests InternalTriggerRate() for error on ch.QueryFloat
+func TestInternalTriggerRate2(){
+
+}
+
+// Tests SetInternalTriggerRate() to show for triggers per second
+func TestSetInternalTriggerRate(){
+
+}
+
+// Tests InternalTriggerRate() to set successful triggers per second
+func TestInternalTriggerRate1(){
+
+}
+
+
+// Tests InternalTriggerPeriod() to show internal trigger period in seconds
+func TestInternalTriggerPeriod(){
+
+}
+// Tests SetInternalTriggerPeriod() to set intenal trigger period in seconds
+func TestSetInternalTriggerPeriod(){
+
+}
+
+
+// Tests TriggerSource() determines trigger Source, error
+func TestTriggerSource1(){
+
+}
+// Tests TriggerSource() finds source of InternalTrigger
+func TestTriggerSource2(){
+
+}
+// Tests TriggerSource() finds source of ExternalTrigger
+func TestTriggerSource3(){
+
+}
+// Tests TriggerSource() finds source of SoftwareTrigger
+func TestTriggerSource4(){
+
+}
+// Tests TriggerSource() shows error determining trigger source
+func TestTriggerSource5(){
+
+}
+
+
+// Tests SetTriggerSource() sets trigger source to InternalTrigger
+func TestSetTriggerSource1(){
+
+}
+// Tests SetTriggerSource() sets trigger source to ExternalTrigger
+func TestSetTriggerSource2(){
+
+}
+// Tests SetTriggerSource() sets trigger source to SoftwareTrigger
+func TestSetTriggerSource3(){
+
+}
+
+
 
   func TestFunction(t *testing.T) {
     expected:="expected answer"
