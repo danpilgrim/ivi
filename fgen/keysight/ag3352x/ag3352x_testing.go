@@ -2,7 +2,6 @@
 package ag3352x
 
 import (
-  //
   "testing"
   "bites"
   "strings"
@@ -148,7 +147,6 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
   // Waveform Command fgen.Triangle, fgen.RampUp, fgen.RampDown
   case "FUNC RAMP;":
-
     // Checks second section of command
     if wordArray[1] != "RAMP:SYMM" {
       return badmsg
@@ -160,22 +158,16 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     // "FUNC RAMP; RAMP:SYMM 0\n" original input, fgen.RampDown
     if percent == 0 {
       return msg
-
     // "FUNC RAMP; RAMP:SYMM 50\n" original input, fgen.Triangle
     } else if percent == 50 {
       return msg
-
     // "FUNC RAMP; RAMP:SYMM 100\n" original input, fgen.RampUp
     } else if percent == 100 {
       return msg
-
     // Error returns bad message
     } else {
       return badmsg
     }
-    return badmsg // fgen.Triangle
-:
-    return msg // fgen.RampDown
 
   case "FUNC DC": // "FUNC DC\n" original input
     return msg // fgen.DC
@@ -186,32 +178,67 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     wordArray[2] = strings.TrimSuffix(golang, ",")
     wordArray[3] = wordArray[3]
     return msg
+
   case "APPL:SQU": //"APPL:SQU %.4f, %.4f, %.4f\n": fgen.Square
     wordArray[1] = strings.TrimSuffix(golang, ",")
     wordArray[2] = strings.TrimSuffix(golang, ",")
     wordArray[3] = wordArray[3]
     return msg
-  case "APPL:RAMP": //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n":
+
+  case "APPL:RAMP": //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n":, fgen.Triangle
+  //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 100\n":// fgen.RampUp
+  //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 0\n": return msg // fgen.RampDown
+
+    //extracts 1st, 2nd, and 4th float values
     wordArray[1] = strings.TrimSuffix(golang, ",")
     wordArray[2] = strings.TrimSuffix(golang, ",")
-    wordArray[3] = wordArray[3]
-    wordArray[4] = wordArray[4]
-    return msg // fgen.Triangle
-  case //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 100\n":// fgen.RampUp
-    return msg // fgen.RampUp
-  case //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 0\n": return msg // fgen.RampDown
-  case "APPL:DC %.4f, %.4f, %.4f\n":
-    return msg // fgen.DC
+    num1, err = strconv.ParseFloat(wordArray[1], 64)
+    if err != nil {return badmsg}
+    num2, err = strconv.ParseFloat(wordArray[2], 64)
+    if err != nil {return badmsg}
+    symmetryNum, err = strconv.ParseFloat(wordArray[4], 64)
+    if err != nil {return badmsg}
 
-  case "FUNC:SQU:DCYC %f\n":
+    //takes 3rd number
+    wordArray[3] = wordArray[3]
+    subString := strings.TrimSuffix(wordArray[3], ";")
+    num3, err = strconv.ParseInt(wordArray[2], 64)
+    if err != nil {return badmsg}
+
+    //symmetry number
+    if symmetryNum == 100.0 {
+      return msg;
+    } else if symmetryNum == 50.0 {
+      return msg;
+    } else if symmetryNum == 0.0 {
+      return msg;
+    } else {
+      return badmsg;
+    }
+    return msg // fgen.Triangle
+
+  case "APPL:DC": // "APPL:DC %.4f, %.4f, %.4f\n", fgen.DC
+    wordArray[1] = strings.TrimSuffix(golang, ",")
+    wordArray[2] = strings.TrimSuffix(golang, ",")
+    num1, err = strconv.ParseFloat(wordArray[1], 64)
+    if err != nil {return badmsg}
+    num2, err = strconv.ParseFloat(wordArray[2], 64)
+    if err != nil {return badmsg}
+    num3, err = strconv.ParseFloat(wordArray[3], 64)
+    if err != nil {return badmsg}
+    return msg
+
+  case "FUNC:SQU:DCYC": // "FUNC:SQU:DCYC %f\n"
+    wordArray[1] = wordArray[1]
     return msg // Sets the percentage of time, specified as 0-100, during one
-    // cycle for which the square wave is at its high value
-  case "FREQ %f\n":
+                  // cycle for which the square wave is at its high value
+
+  case "FREQ": // "FREQ %f\n"
+    wordArray[1] = wordArray[1]
     return msg // Sets number of waveform cycles per second
 
   default:
     return nomsg //no command found
-
   }
 }
 
@@ -254,9 +281,7 @@ func TestBurstStateOn() {
   fg := FakeInstrument{
     BurstState: "ON",
   }
-
-
-    // FIXME: Write code to test querying the burst state.
+// FIXME: Write code to test querying the burst state.
 
 }
 
