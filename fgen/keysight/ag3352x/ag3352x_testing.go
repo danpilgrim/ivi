@@ -65,52 +65,141 @@ func (inst *FakeInstrument) Write(p []byte) (int, error) {
 // Mock "WriteString" command
 func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
-string msg = "COMMAND SUCCESS"
-string badmsg = "command not recognized"
+  // takes off "\n" ending for strings
+  s == strings.TrimSuffix(s, "\n")
 
-  //wordArray := strings.Split(s, " ")
+  // return messages
+  string msg = "COMMAND SUCCESS"
+  string badmsg = "command not recognized"
 
-  switch s {
-  case "BURS:MODE TRIG;STAT ON\n":
+  wordArray := strings.Split(s, " ")
+
+  switch wordArray[0] {
+  case "BURS:MODE": // "BURS:MODE TRIG;STAT ON\n" original input
+    if wordArray[1] != "TRIG;STAT" {
+      return badmsg
+    }
+    if wordArray[2] != "ON" {
+      return badmsg
+    }
     return msg // "Burst mode on, stat one"
-  case "BURS:STAT OFF\n":
-    return msg // "Burst Mode Off"
-  case "OUPT ON\n":
-    return msg // Enables output channel
-  case "OUTP OFF\n":
-    return msg // Disables output channel
-  case "OUTP:LOAD %f\n":
-    return msg // Sets output channel's impedance in ohms
-  case "BURS:NCYC %d\n":
-    return msg // Sets number of waveform cycles after trigger
-  case "VOLT %f VPP\n":
-    return msg // Sets amplitude max/min difference
 
-    //waveformCommands
-  case "FUNC SIN\n":
-    return msg // fgen.Sine
-  case "FUNC SQU\n":
-    return msg // fgen.Square
-  case "FUNC RAMP; RAMP:SYMM 50\n":
-    return msg // fgen.Triangle
-  case "FUNC RAMP; RAMP:SYMM 100\n":
-    return msg // fgen.RampUp
-  case "FUNC RAMP; RAMP:SYMM 0\n":
+  case "BURS:STAT": // "BURS:STAT OFF\n" original input
+  if wordArray[2] != "ON" {
+    return badmsg
+  }
+  return msg // "Burst Mode Off"
+
+  case "OUPT": // "OUPT ON\n" || "OUTP OFF\n" original input
+    if wordArray[1] == "ON\n" {
+      return msg // Output channel enabled
+    }else if wordArray[1] == "OFF\n" {
+      return msg // output channel disabled
+    }else{
+      return badmsg // Second string not recognized
+    }
+
+    // Sets output channel's impedance in ohms
+  case "OUTP:LOAD": // "OUTP:LOAD %f\n"  original input
+    percent, err = strconv.ParseFloat(wordArray[1], 64)
+    if err == nil{
+      return msg
+    } else {
+      return badmsg // Sets amplitude max/min difference
+    }
+    return badmsg
+
+    // Sets number of waveform cycles after trigger
+  case "BURS:NCYC": // "BURS:NCYC %d\n" original input
+    percent, err = strconv.ParseFloat(wordArray[1], 64)
+    if err == nil{
+      return msg
+      } else {
+        return badmsg // Sets amplitude max/min difference
+      }
+    return badmsg
+
+  case "VOLT": // "VOLT %f VPP\n" original input
+
+    // test for VPP
+    if wordArray[2] != "VPP" {
+      return badmsg
+    }
+
+    // test for int
+    percent, err = strconv.ParseFloat(wordArray[1], 64)
+    if err == nil{
+      return msg
+    } else {
+      return badmsg // Sets amplitude max/min difference
+    }
+
+    // WaveformCommands fgen.Sine, fgen.Square
+  case "FUNC":
+     // "FUNC SIN\n" original input, fgen.Sine
+    if wordArray[1] == "SIN" {
+      return msg
+    // "FUNC SQU\n" original input, fgen.Square
+    } else if wordArray[1] == "SQU" {
+      return msg
+    } else {
+      return badmsg
+    }
+
+  // Waveform Command fgen.Triangle, fgen.RampUp, fgen.RampDown
+  case "FUNC RAMP;":
+
+    // Checks second section of command
+    if wordArray[1] != "RAMP:SYMM" {
+      return badmsg
+    }
+
+    // BELOW Checks third section of command
+    percent, err = strconv.ParseInt(wordArray[2], 64)
+
+    // "FUNC RAMP; RAMP:SYMM 0\n" original input, fgen.RampDown
+    if percent == 0 {
+      return msg
+
+    // "FUNC RAMP; RAMP:SYMM 50\n" original input, fgen.Triangle
+    } else if percent == 50 {
+      return msg
+
+    // "FUNC RAMP; RAMP:SYMM 100\n" original input, fgen.RampUp
+    } else if percent == 100 {
+      return msg
+
+    // Error returns bad message
+    } else {
+      return badmsg
+    }
+    return badmsg // fgen.Triangle
+:
     return msg // fgen.RampDown
-  case "FUNC DC\n":
+
+  case "FUNC DC": // "FUNC DC\n" original input
     return msg // fgen.DC
 
     //waveformApplyCommands
-  case "APPL:SIN %.4f, %.4f, %.4f\n":
-    return msg // fgen.Sine
-  case "APPL:SQU %.4f, %.4f, %.4f\n":
-    return msg // fgen.Square
-  case "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n":
+  case "APPL:SIN": //"APPL:SIN %.4f, %.4f, %.4f\n": fgen.Sine
+    wordArray[1] = strings.TrimSuffix(golang, ",")
+    wordArray[2] = strings.TrimSuffix(golang, ",")
+    wordArray[3] = wordArray[3]
+    return msg
+  case "APPL:SQU": //"APPL:SQU %.4f, %.4f, %.4f\n": fgen.Square
+    wordArray[1] = strings.TrimSuffix(golang, ",")
+    wordArray[2] = strings.TrimSuffix(golang, ",")
+    wordArray[3] = wordArray[3]
+    return msg
+  case "APPL:RAMP": //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 50\n":
+    wordArray[1] = strings.TrimSuffix(golang, ",")
+    wordArray[2] = strings.TrimSuffix(golang, ",")
+    wordArray[3] = wordArray[3]
+    wordArray[4] = wordArray[4]
     return msg // fgen.Triangle
-  case "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 100\n":
+  case //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 100\n":// fgen.RampUp
     return msg // fgen.RampUp
-  case "APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 0\n":
-    return msg // fgen.RampDown
+  case //"APPL:RAMP %.4f, %.4f, %.4f;:FUNC:RAMP:SYMM 0\n": return msg // fgen.RampDown
   case "APPL:DC %.4f, %.4f, %.4f\n":
     return msg // fgen.DC
 
