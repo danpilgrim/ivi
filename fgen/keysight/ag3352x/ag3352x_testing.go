@@ -3,10 +3,7 @@ package ag3352x
 
 import (
   "testing"
-  "bites"
   "strings"
-  //subsitute with updated git
-  "github.com/danpilgrim/ivi.git"
   )
 
 
@@ -25,16 +22,6 @@ type FakeInstrument struct {
   TriggerSource string
 }
 
- extractNumber(s string) (float64, error) {
-
-  n = 1
-  while (err != nil || n < len(string)){
-    str1 := string[0:n]
-    strFloat := string[n+1:len(string)-1]
-    str2, err := strconv.ParseFloat(strFloat, 64)
-    n++
-  }
-}
 
 // Mock read command
 func (inst *FakeInstrument) Read(p []byte) (int, error) {
@@ -51,6 +38,7 @@ func (inst *FakeInstrument) Read(p []byte) (int, error) {
 
 }
 
+
 // Mock "Write" command
 func (inst *FakeInstrument) Write(p []byte) (int, error) {
 
@@ -61,35 +49,41 @@ func (inst *FakeInstrument) Write(p []byte) (int, error) {
   println(str)
 }
 
+
 // Mock "WriteString" command
 func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
-  // takes off "\n" ending for strings
+  // trims "/n" from ends of commands
   s == strings.TrimSuffix(s, "\n")
 
   // return messages
   string msg = "COMMAND SUCCESS"
-  string badmsg = "command not recognized"
+  string badmsg = "COMMAND NOT RECOGNIZED"
 
   wordArray := strings.Split(s, " ")
 
+  //uses first word of command
   switch wordArray[0] {
-  case "BURS:MODE": // "BURS:MODE TRIG;STAT ON\n" original input
-    if wordArray[1] != "TRIG;STAT" {
-      return badmsg
-    }
-    if wordArray[2] != "ON" {
-      return badmsg
-    }
-    return msg // "Burst mode on, stat one"
 
-  case "BURS:STAT": // "BURS:STAT OFF\n" original input
-  if wordArray[2] != "ON" {
-    return badmsg
-  }
-  return msg // "Burst Mode Off"
+
+    case "BURS:MODE": // "BURS:MODE TRIG;STAT ON\n" original input
+      if wordArray[1] != "TRIG;STAT" {
+        return badmsg
+      }
+      if wordArray[2] != "ON" {
+        return badmsg
+      }
+      return msg // "Burst mode on, stat one"
+
+      case "BURS:STAT": // "BURS:STAT OFF\n" original input
+      if wordArray[2] != "ON" {
+        return badmsg
+      }
+      return msg // "Burst Mode Off"
+
 
   case "OUPT": // "OUPT ON\n" || "OUTP OFF\n" original input
+
     if wordArray[1] == "ON\n" {
       return msg // Output channel enabled
     }else if wordArray[1] == "OFF\n" {
@@ -97,6 +91,7 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     }else{
       return badmsg // Second string not recognized
     }
+
 
     // Sets output channel's impedance in ohms
   case "OUTP:LOAD": // "OUTP:LOAD %f\n"  original input
@@ -106,7 +101,7 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     } else {
       return badmsg // Sets amplitude max/min difference
     }
-    return badmsg
+
 
     // Sets number of waveform cycles after trigger
   case "BURS:NCYC": // "BURS:NCYC %d\n" original input
@@ -114,10 +109,11 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     if err == nil{
       return msg
       } else {
-        return badmsg // Sets amplitude max/min difference
+        return badmsg
       }
-    return badmsg
 
+
+    // Sets difference between max & min waveform values
   case "VOLT": // "VOLT %f VPP\n" original input
 
     // test for VPP
@@ -133,8 +129,10 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
       return badmsg // Sets amplitude max/min difference
     }
 
+
     // WaveformCommands fgen.Sine, fgen.Square
   case "FUNC":
+
      // "FUNC SIN\n" original input, fgen.Sine
     if wordArray[1] == "SIN" {
       return msg
@@ -147,6 +145,7 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
   // Waveform Command fgen.Triangle, fgen.RampUp, fgen.RampDown
   case "FUNC RAMP;":
+
     // Checks second section of command
     if wordArray[1] != "RAMP:SYMM" {
       return badmsg
@@ -207,15 +206,15 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
 
     //symmetry number
     if symmetryNum == 100.0 {
-      return msg;
+      return msg; // fgen.RampUp
     } else if symmetryNum == 50.0 {
-      return msg;
+      return msg; // fgen.Triangle
     } else if symmetryNum == 0.0 {
-      return msg;
+      return msg; // fgen.RampDown
     } else {
       return badmsg;
     }
-    return msg // fgen.Triangle
+
 
   case "APPL:DC": // "APPL:DC %.4f, %.4f, %.4f\n", fgen.DC
     wordArray[1] = strings.TrimSuffix(golang, ",")
@@ -228,17 +227,20 @@ func (inst *FakeInstrument) WriteString(s string) (int, error) {
     if err != nil {return badmsg}
     return msg
 
+
   case "FUNC:SQU:DCYC": // "FUNC:SQU:DCYC %f\n"
     wordArray[1] = wordArray[1]
     return msg // Sets the percentage of time, specified as 0-100, during one
                   // cycle for which the square wave is at its high value
+
 
   case "FREQ": // "FREQ %f\n"
     wordArray[1] = wordArray[1]
     return msg // Sets number of waveform cycles per second
 
   default:
-    return nomsg //no command found
+    return badmsg //no command found
+
   }
 }
 
